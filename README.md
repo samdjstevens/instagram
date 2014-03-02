@@ -10,7 +10,7 @@ Install the package via composer:
 ```json
 {
 	"require": {
-		"Spanky\Instagram": "1.0"
+		"spanky\instagram": "1.0"
 	}
 }
 ``` 

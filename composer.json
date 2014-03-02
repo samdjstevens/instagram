@@ -1,5 +1,5 @@
 {
-	"name": "Spanky/Instagram",
+	"name": "spanky/instagram",
 	"type": "library",
 	"description": "Instagram API wrapper for PHP 5.3+",
 	"keywords": ["instagram", "api"],

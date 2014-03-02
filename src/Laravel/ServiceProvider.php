@@ -13,7 +13,7 @@ class ServiceProvider extends BaseServiceProvider {
 	{
 		$this->app->bind('instagram', function() 
 		{
-			$config = Config::get('Instagram::config');
+			$config = Config::get('instagram::config');
 			return new Factory($config);
 		});
 	}
@@ -21,7 +21,7 @@ class ServiceProvider extends BaseServiceProvider {
 
 	public function boot() 
 	{
-		$this->package('Spanky\Instagram');
+		$this->package('spanky\instagram');
 
 		AliasLoader::getInstance()->alias(
 
