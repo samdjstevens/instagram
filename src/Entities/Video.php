@@ -1,5 +1,9 @@
 <?php namespace Spanky\Instagram\Entities;
 
+/**
+ * An Instagram Video.
+ */
+
 class Video extends MediaObject {
 
 	/**

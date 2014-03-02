@@ -18,6 +18,15 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 
 
 	/**
+	 * Store the pagination object.
+	 * 
+	 * @var stdClass
+	 */
+
+	private $pagination;
+
+
+	/**
 	 * Constructor.
 	 *
 	 * Transform the array of data into the
@@ -26,7 +35,7 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 	 * @param array $items
 	 */
 
-	public function __construct(array $items) 
+	public function __construct(array $items, $pagination) 
 	{
 		$this->items = array_map(function($item) 
 		{
@@ -36,6 +45,9 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 
 		// Loop through the items, and transform each
 		// one, before assigning to $this->items
+
+		$this->pagination = $pagination;
+		// Store the pagination object
 	}
 
 
@@ -86,6 +98,47 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 	public function last() 
 	{
 		return count($this->items) ? end($this->items) : null;
+	}
+
+
+	/**
+	 * Pagination.
+	 */
+
+	/**
+	 * Determine if there are more items to
+	 * retrieve for this collection.
+	 * 
+	 * @return boolean
+	 */
+
+	public function hasMoreItems() 
+	{
+		return isset($this->pagination->next_max_id);
+	}
+
+
+	/**
+	 * Get the max id for the next page.
+	 * 
+	 * @return int
+	 */
+
+	public function nextPageMaxId() 
+	{
+		return isset($this->pagination->next_max_id) ? $this->pagination->next_max_id : false;
+	}
+
+
+	/**
+	 * Get the next page url.
+	 * 
+	 * @return string
+	 */
+
+	public function nextPageUrl() 
+	{
+		return isset($this->pagination->next_url) ? $this->pagination->next_url : false;
 	}
 
 

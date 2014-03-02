@@ -2,5 +2,5 @@
 
 use Exception;
 
-class BadRequestException extends Exception {
+class ApiRequestException extends Exception {
 }

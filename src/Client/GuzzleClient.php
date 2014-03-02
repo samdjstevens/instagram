@@ -2,7 +2,8 @@
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
-use Spanky\Instagram\Exceptions\BadRequestException;
+use Guzzle\Http\QueryString;
+use Spanky\Instagram\Exceptions\ApiRequestException;
 
 class GuzzleClient implements ClientInterface {
 
@@ -74,7 +75,14 @@ class GuzzleClient implements ClientInterface {
 
 	public function put($url, $data = array()) 
 	{
-		// TODO: implement
+		$query = (string) new QueryString($data);
+		// Generate a query string
+
+		$request = $this->guzzle->put($url)->setBody($query);
+		// Create a PUT request, setting the body to the
+		// query string.
+
+		return $this->send($request);
 	}
 
 
@@ -101,10 +109,11 @@ class GuzzleClient implements ClientInterface {
 
 
 	/**
-	 * Fire a request off, and return the JSON encoded body.
+	 * Fire off a request and return a Response
+	 * object representing the result.
 	 * 
 	 * @param  Guzzle\Http\Message\Request $request
-	 * @return mixed
+	 * @return Spanky\Instagram\Client\Response
 	 */
 
 	public function send($request) 
@@ -112,11 +121,15 @@ class GuzzleClient implements ClientInterface {
 		try 
 		{
 			$response = $request->send();
-			return json_decode((string) $response->getBody());
+			// Fire off the request
+
+			return new Response((string) $response->getBody(), $response->getStatusCode());
+			// Return a new Response with the response body and 
+			// status code
 		}
 		catch (ClientErrorResponseException $e ) 
 		{
-			throw new BadRequestException($e);
+			throw new ApiRequestException("Bad request.");
 		}
 	}
 }

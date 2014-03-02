@@ -1,18 +1,16 @@
 <?php namespace Spanky\Instagram;
 
-use Spanky\Instagram\Client\ClientInterface;
-use Exception;
-use Spanky\Instagram\Exceptions\AuthenticationException;
+use Spanky\Instagram\Api;
 
 class Authenticator {
 
-	/**	
-	 * The Client that makes all our requests.
+	/**
+	 * The Api object.
 	 * 
-	 * @var Spanky\Instagram\Client\ClientInterface
+	 * @var Spanky\Instagram\Api
 	 */
 
-	private $client;
+	private $api;
 
 
 	/**
@@ -25,26 +23,16 @@ class Authenticator {
 
 
 	/**
-	 * The user id of the authorized user.
-	 * Set once an access token has been retrieved.
-	 * 
-	 * @var int
-	 */
-
-	private $user_id;
-
-
-	/**
-	 * Inject the Client into the class, along with
+	 * Inject the Api into the class, along with
 	 * the configuration details.
 	 * 
-	 * @param ClientInterface	$client
-	 * @param array				$config
+	 * @param Api	$api
+	 * @param array	$config
 	 */
 
-	public function __construct(ClientInterface $client, $config = array()) 
+	public function __construct(Api $api, $config = array()) 
 	{
-		$this->client = $client;
+		$this->api = $api;
 		$this->config = $config;
 	}
 
@@ -104,45 +92,19 @@ class Authenticator {
 
 	public function getAccessToken($code) 
 	{
-		try 
-		{
-			$data = $this->client->post('https://api.instagram.com/oauth/access_token', array(
-
-				'client_id'		=> $this->config['client_id'],
-				'client_secret'	=> $this->config['client_secret'],
-				'grant_type'	=> 'authorization_code',
-				'redirect_uri'	=> $this->config['redirect_uri'],
-				'code'			=> $code
-
-			));
-			// Get the data
-
-			$token = $data->access_token;
-			// Grab the token
-
-			$this->user_id = (int) $data->user->id;
-			// Grab and cast the user id
-
-			return $token;
-			// Return the token
-		}
-		catch( Exception $e ) 
-		{
-			throw new AuthenticationException("Could not grab the access token.");
-			// The request failed, throw an exception
-		}
+		return $this->api->getAccessToken($code);
 	}
 
 
 	/**
-	 * Get the id of the user that has just authorized 
+	 * Get the user that has just authorized 
 	 * the application.
 	 * 
-	 * @return int
+	 * @return Spanky\Instagram\Entities\User
 	 */
 
-	public function getAuthorizedUserId() 
+	public function getAuthorizedUser() 
 	{
-		return $this->user_id;
+		return $this->api->getAuthorizedUser();
 	}
 }

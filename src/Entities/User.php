@@ -1,5 +1,10 @@
 <?php namespace Spanky\Instagram\Entities;
 
+/**
+ * Object representing an Instagram user
+ * account.
+ */
+
 class User {
 
 	/**

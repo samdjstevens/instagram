@@ -2,6 +2,13 @@
 
 use DateTime;
 
+/**
+ * Object representing a photo, or video
+ * instagram upload. Contains information including
+ * the caption, when it was created, and the user 
+ * who created it.
+ */
+
 class MediaObject {
 
 	/**
