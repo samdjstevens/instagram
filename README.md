@@ -7,7 +7,7 @@ A simple, framework agnostic, PHP implementation of a wrapper for the [Instagram
 
 Install the package via composer:
 
-```
+```json
 {
 	"require": {
 		"Spanky\Instagram": "1.0"
@@ -16,7 +16,7 @@ Install the package via composer:
 ``` 
 and require the Composer autoloader:
 
-```
+```php
 <?php
 	require 'vendor/autoload.php';
 ```
@@ -32,7 +32,7 @@ The package follows the server side flow for authentication, [described here](ht
 
 - Create a new instance of ```Spanky\Instagram\Factory```, passing in the configuration array as the only parameter. Then retrieve an instance of ```Spanky\Instagram\Authenticator``` from the ```Factory``` object,  by calling ```$factory->authenticator()```. Finally, retrieve the authorization URL from the Authenticator and redirect the user.
 
-```
+```php
 <?php
 
 use Spanky\Instagram\Factory as Instagram;
@@ -56,7 +56,7 @@ header("Location:{$redirect_url}");
 
 - Upon authorizing, the user will be redirected back to the URL you specified when you registered the client, along with a ```code``` parameter in the query string. You need to pass this code to the ```getAccessToken(``` method on the ```Spanky\Instagram\Authenticator``` class to retrieve the access token. Once you have this access token, you can store it (in the session, in a database, etc) and retrieve it for authenticating API requests.
 
-```
+```php
 <?php
 
 use Spanky\Instagram\Factory as Instagram;
@@ -85,7 +85,7 @@ header("Location:index.php");
 
 Once you are in posession of an access token, you must set this on the instance of the ```Spanky\Instagram\Api``` class, before you can make any requests.
 
-```
+```php
 <?php
 
 use Spanky\Instagram\Factory as Instagram;
@@ -103,10 +103,3 @@ $instagram = $factory->api();
 $instagram->setAccessToken($_SESSION['instagram_access_token']);
 
 ```
-
-
-
-
-
-
-
