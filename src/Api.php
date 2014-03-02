@@ -1,9 +1,8 @@
 <?php namespace Spanky\Instagram;
 
 use Spanky\Instagram\Client\ClientInterface;
-use Spanky\Instagram\Entities\User;
-use Spanky\Instagram\Entities\Photo;
-use Spanky\Instagram\Entities\Video;
+use Spanky\Instagram\Collections\UserCollection;
+use Spanky\Instagram\Collections\MediaCollection;
 
 class Api {
 
@@ -31,53 +30,28 @@ class Api {
 
 		//var_dump($me);
 
-		$user = array(
+		$collection = new UserCollection(array($details->data));
 
-			'id'	=> $details->data->id,
-			'username'	=> $details->data->username,
-			'profile_picture'	=> $details->data->profile_picture,
-			'full_name'			=> $details->data->full_name,
-			'bio'			=> $details->data->bio,
-			'website'			=> $details->data->website,
-
-		);
-
-		return new User($user);
+		return $collection->first();
 	}
 
 
-
-	// public function feed() 
-	// {
-	// 	return $this->get('users/self/feed');
-	// }
 
 
 	public function media($user_id) 
 	{
 		$data = $this->get('users/'.$user_id.'/media/recent');
-
-		$items = array();
 		$media = $data->data;
 
-
-
-		foreach($media as $obj) 
-		{
-			//var_dump($obj);
-			if ( $obj->type == "image") 
-			{
-				$items[] = new Photo($obj);
-			}
-			else
-			{
-				//var_dump($obj->videos);
-				$items[] = new Video($obj);
-			}
-		}
-
-		return $items;
+		return new MediaCollection($media);
 	}
+
+
+
+
+
+
+
 
 
 

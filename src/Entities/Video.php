@@ -18,8 +18,8 @@ class Video extends MediaObject {
 
 		$this->videos = array(
 
-			'low'		=> new MediaFile($data->videos->low_resolution->url, $data->videos->low_resolution->width, $data->videos->low_resolution->height),
-			'standard'	=> new MediaFile($data->videos->standard_resolution->url, $data->videos->standard_resolution->width, $data->videos->standard_resolution->height),
+			'low'		=> new MediaFile($data['videos']->low_resolution->url, $data['videos']->low_resolution->width, $data['videos']->low_resolution->height),
+			'standard'	=> new MediaFile($data['videos']->standard_resolution->url, $data['videos']->standard_resolution->width, $data['videos']->standard_resolution->height),
 
 		);
 

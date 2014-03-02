@@ -68,7 +68,7 @@ class User {
 
 	public function __construct( $details ) 
 	{
-		$this->id 				= (int) $details['id'];
+		$this->id 				= $details['id'];
 		$this->username 		= $details['username'];
 		$this->full_name 		= $details['full_name'];
 		$this->bio 				= $details['bio'];

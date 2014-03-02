@@ -61,50 +61,43 @@ class MediaObject {
 	private $images;
 
 
+	/**
+	 * Set all the data.
+	 * 
+	 * @param array $data
+	 */
 
 	public function __construct( $data ) 
 	{
-		$this->id = $data->id;
+		$this->id = $data['id'];
 
+		$this->user = new User(array(
 
-		$user = array(
+			'id'				=> $data['user']->id,
+			'username'			=> $data['user']->username,
+			'profile_picture'	=> $data['user']->profile_picture,
+			'full_name'			=> $data['user']->full_name,
+			'bio'				=> $data['user']->bio,
+			'website'			=> $data['user']->website,
 
-			'id'				=> $data->user->id,
-			'username'			=> $data->user->username,
-			'profile_picture'	=> $data->user->profile_picture,
-			'full_name'			=> $data->user->full_name,
-			'bio'				=> $data->user->bio,
-			'website'			=> $data->user->website,
+		));
 
-		);
-
-		$this->user = new User($user);
-
-		if ( isset( $data->caption ) )
-			$this->caption = $data->caption->text;
+		$this->caption = $data['caption'];
 
 		$this->created_at = new DateTime();
-		$this->created_at->setTimestamp($data->created_time);
+		$this->created_at->setTimestamp($data['created_at']);
 		// set the dateTime object from the timestamp
 
-		$this->tags = $data->tags;
+		$this->tags = $data['tags'];
 
 		$this->images = array(
 
-			'thumbnail'	=> new MediaFile($data->images->thumbnail->url, $data->images->thumbnail->width, $data->images->thumbnail->height),
-			'low'		=> new MediaFile($data->images->low_resolution->url, $data->images->low_resolution->width, $data->images->low_resolution->height),
-			'standard'	=> new MediaFile($data->images->standard_resolution->url, $data->images->standard_resolution->width, $data->images->standard_resolution->height),
+			'thumbnail'	=> new MediaFile($data['images']->thumbnail->url, $data['images']->thumbnail->width, $data['images']->thumbnail->height),
+			'low'		=> new MediaFile($data['images']->low_resolution->url, $data['images']->low_resolution->width, $data['images']->low_resolution->height),
+			'standard'	=> new MediaFile($data['images']->standard_resolution->url, $data['images']->standard_resolution->width, $data['images']->standard_resolution->height),
 
 		);
-
 	}
-
-
-
-
-
-
-
 
 
 	/**
