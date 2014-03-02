@@ -1,4 +1,4 @@
-#Instagram API for PHP 5.3+
+#Instagram API for PHP 5.3+ [Work in progress]
 
 A simple, framework agnostic, PHP implementation of a wrapper for the [Instagram API](http://instagram.com/developer/).
 
@@ -14,10 +14,9 @@ Install the package via composer:
 	}
 }
 ``` 
-and require the Composer autoloader:
+and require the Composer autoloader in your PHP files:
 
 ```php
-<?php
 	require 'vendor/autoload.php';
 ```
 
