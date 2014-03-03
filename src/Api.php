@@ -7,6 +7,7 @@ use Exception;
 use Spanky\Instagram\Exceptions\AuthenticationException;
 use Spanky\Instagram\Exceptions\ApiRequestException;
 
+
 class Api {
 
 	/**
@@ -56,10 +57,9 @@ class Api {
 	 * @param array           $config
 	 */
 
-	public function __construct(ClientInterface $client, array $config) 
+	public function __construct(ClientInterface $client) 
 	{
 		$this->client = $client;
-		$this->config = $config;
 	}
 
 
@@ -85,6 +85,22 @@ class Api {
 
 	public function getAuthorizedUser() 
 	{
+		if (is_null($this->authorizedUser)) 
+		{
+			$response = $this->hit('get', 'users/self');
+
+			$collection = new UserCollection(
+
+				array($response->data()), 
+				$response->pagination()
+
+			);
+			// Create a new User collection, with just the one user
+
+			$this->authorizedUser = $collection->first();
+			// Return the user
+		}
+
 		return $this->authorizedUser;
 	}
 
@@ -147,28 +163,25 @@ class Api {
 
 
 
-	public function getAccessToken($code) 
+	public function getAccessToken($code, $config) 
 	{
 		try 
 		{
 			$response = $this->hit('post', 'https://api.instagram.com/oauth/access_token', array(
 
-				'client_id'		=> $this->config['client_id'],
-				'client_secret'	=> $this->config['client_secret'],
+				'client_id'		=> $config['client_id'],
+				'client_secret'	=> $config['client_secret'],
 				'grant_type'	=> 'authorization_code',
-				'redirect_uri'	=> $this->config['redirect_uri'],
+				'redirect_uri'	=> $config['redirect_uri'],
 				'code'			=> $code
 
 			));
 			// Get the data
 
-			$token = $response->data()->access_token;
+			$token = $response->envelope()->access_token;
 			$this->setAccessToken($token);
 			// Grab the token and set it
 			// 
-
-			$this->authorizedUser = $this->getUser((int) $response->data()->user->id);
-
 			return $token;
 			// Return the token
 		}
@@ -209,11 +222,9 @@ class Api {
 		{
 			$params['access_token'] = $this->accessToken;
 		}
-		else if ($this->clientId)
-		{
-			$params['client_id'] = $this->clientId;
-		}
+
 		// Add the auth in
+
 
 		$response = $this->client->{$method}($url, $params);
 

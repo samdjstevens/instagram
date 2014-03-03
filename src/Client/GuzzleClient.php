@@ -4,6 +4,7 @@ use Guzzle\Http\Client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
 use Guzzle\Http\QueryString;
 use Spanky\Instagram\Exceptions\ApiRequestException;
+use Spanky\Instagram\Exceptions\AuthenticationException;
 
 class GuzzleClient implements ClientInterface {
 
@@ -129,7 +130,23 @@ class GuzzleClient implements ClientInterface {
 		}
 		catch (ClientErrorResponseException $e ) 
 		{
-			throw new ApiRequestException("Bad request.");
+			switch($e->getResponse()->getStatusCode()) 
+			{
+				case 404:
+
+					// Incorrect API URL
+
+					throw new ApiRequestException("Endpoint not found: ".$request->getUrl(true));
+
+				break;
+
+				case 400:
+
+					// Incorrect Access Token
+					throw new AuthenticationException("Could not authenticate: ".$request->getUrl(true));
+
+				break;
+			}
 		}
 	}
 }

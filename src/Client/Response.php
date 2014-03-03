@@ -94,23 +94,4 @@ class Response {
 	{
 		return isset($this->envelope()->pagination) ? $this->envelope()->pagination : null;
 	}
-
-
-	/**
-	 * Determine whether the response is 
-	 * valid or not.
-	 * 
-	 * @return boolean
-	 */
-
-	public function isValid() 
-	{
-		return 
-
-			$this->envelope() instanceof stdClass 
-
-			and 
-
-			! isset($this->envelope()->meta->error_type);
-	}
 }

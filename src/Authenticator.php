@@ -23,6 +23,15 @@ class Authenticator {
 
 
 	/**
+	 * The allowed/defined request scopes.
+	 * 
+	 * @var array
+	 */
+
+	private $allowedScopes = array('basic', 'comments', 'relationships', 'likes');
+
+
+	/**
 	 * Inject the Api into the class, along with
 	 * the configuration details.
 	 * 
@@ -51,7 +60,7 @@ class Authenticator {
 			'https://api.instagram.com/oauth/authorize/?client_id=%s&redirect_uri=%s&response_type=code&scope=%s',
 			$this->config['client_id'],
 			$this->config['redirect_uri'],
-			$this->formScopeString($scopes)
+			$this->createScopeString($scopes)
 
 		);
 	}
@@ -65,21 +74,11 @@ class Authenticator {
 	 * @return string
 	 */
 
-	private function formScopeString(array $scopes) 
+	private function createScopeString(array $scopes) 
 	{
-		$allowed_scopes = array('basic', 'comments', 'relationships', 'likes');
-		// The allowed/defined scopes
-
-		$scopes = array_filter($scopes, function($item) use ($allowed_scopes) 
-		{
-			return in_array($item, $allowed_scopes);
-
-		});
+		return implode('+', array_intersect($scopes, $this->allowedScopes));
 		// Filter the array entered to those only in the
-		// allowed array
-
-		return implode('+', $scopes);
-		// Return the scopes as a string, joined by "+"
+		// allowed array, and join up the strings with a "+"
 	}
 
 
@@ -92,19 +91,6 @@ class Authenticator {
 
 	public function getAccessToken($code) 
 	{
-		return $this->api->getAccessToken($code);
-	}
-
-
-	/**
-	 * Get the user that has just authorized 
-	 * the application.
-	 * 
-	 * @return Spanky\Instagram\Entities\User
-	 */
-
-	public function getAuthorizedUser() 
-	{
-		return $this->api->getAuthorizedUser();
+		return $this->api->getAccessToken($code, $this->config);
 	}
 }

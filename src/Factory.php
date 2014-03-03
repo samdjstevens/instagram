@@ -8,35 +8,14 @@ use Spanky\Instagram\Api;
 class Factory {
 
 	/**
-	 * The configuration details.
-	 * 
-	 * @var array
-	 */
-
-	static $config;
-
-
-	/**
-	 * Constructor.
-	 * 
-	 * @param array $config
-	 */
-
-	public function __construct($config = array()) 
-	{
-		self::$config = $config;
-	}
-
-
-	/**
 	 * Create an instance of the Authenticator class.
 	 * 
 	 * @return Spanky\Instagram\Authenticator
 	 */
 
-	public static function authenticator() 
+	public static function authenticator($config) 
 	{
-		return new Authenticator(self::api(), self::$config);
+		return new Authenticator(self::api(), $config);
 	}
 
 
@@ -48,6 +27,6 @@ class Factory {
 
 	public static function api() 
 	{
-		return new Api(new GuzzleClient(new Client), self::$config);
+		return new Api(new GuzzleClient(new Client));
 	}
 }

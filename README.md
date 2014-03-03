@@ -4,7 +4,6 @@ A simple, framework agnostic, PHP implementation of a wrapper for the [Instagram
 
 ##Installation
 
-
 Install the package via composer:
 
 ```json
@@ -20,8 +19,30 @@ and require the Composer autoloader in your PHP files:
 	require 'vendor/autoload.php';
 ```
 
-##Usage
+###Laravel Installation
 
+If you want to use this package with Laravel 4, you can make use of the included service provider and facades to take care of the bootstrapping code.
+
+First, add the service provider to the ```providers``` array in ```app/config/app.php```:
+
+```php
+'providers' => array(
+	...
+	'Spanky\Instagram\Laravel\InstagramServiceProvider',
+);
+```
+
+Next, publish the configuration file from the package to your project via the command line:
+
+```
+php artisan config:publish spanky/instagram
+```
+
+You should now see the config file at ```app/config/packages/spanky/instagram/config.php```, where you can enter in your details.
+
+Once you've entered in your app details in the config file, you can now access the ```Spanky\Instagram\Factory``` class with the ```Instagram``` alias.
+
+##Usage
 
 ###Authentication
 
@@ -29,7 +50,7 @@ The package follows the server side flow for authentication, [described here](ht
 
 - [Register a Instagram client](http://instagram.com/developer/clients/register), and note the client info.
 
-- Create a new instance of ```Spanky\Instagram\Factory```, passing in the configuration array as the only parameter. Then retrieve an instance of ```Spanky\Instagram\Authenticator``` from the ```Factory``` object,  by calling ```$factory->authenticator()```. Finally, retrieve the authorization URL from the Authenticator and redirect the user.
+- FILL IN.
 
 ```php
 <?php
@@ -43,9 +64,7 @@ $config = array(
 	'redirect_uri'	=> 'YOUR_REDIRECT_URL'
 );
 
-$factory = new Instagram($config);
-
-$authenticator = $factory->authenticator();
+$authenticator = Instagram::authenticator($config);
 
 $redirect_url = $authenticator->getAuthorizeUrl();
 
@@ -67,13 +86,10 @@ $config = array(
 	'redirect_uri'	=> 'YOUR_REDIRECT_URL'
 );
 
-$factory = new Instagram($config);
-
-$authenticator = $factory->authenticator();
+$authenticator = Instagram::authenticator($config);
 
 $token = $authenticator->getAccessToken($_GET['code']);
 $_SESSION['instagram_access_token'] = $token;
-$_SESSION['instagram_user_id'] = $auth->getAuthorizedUser()->id;
 
 header("Location:index.php");
 // Redirect somewhere
@@ -96,9 +112,7 @@ $config = array(
 	'redirect_uri'	=> 'YOUR_REDIRECT_URL'
 );
 
-$factory = new Instagram($config);
-
-$instagram = $factory->api();
+$instagram = Instagram::api();
 $instagram->setAccessToken($_SESSION['instagram_access_token']);
 
 ```

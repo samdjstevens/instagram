@@ -2,7 +2,7 @@
 
 /*
 |--------------------------------------------------------------------------
-| Instagram API Configuration
+| Laravel Instagram API Configuration
 |--------------------------------------------------------------------------
 |
 | Here you should change the configuration below to match those found
