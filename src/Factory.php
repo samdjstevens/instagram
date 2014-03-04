@@ -2,21 +2,21 @@
 
 use Guzzle\Http\Client;
 use Spanky\Instagram\Client\GuzzleClient;
-use Spanky\Instagram\Authenticator;
+use Spanky\Instagram\Authorizor;
 use Spanky\Instagram\Instagram;
 use Spanky\Instagram\Http;
 
 class Factory {
 
 	/**
-	 * Create an instance of the Authenticator class.
+	 * Create an instance of the Authorizor class.
 	 * 
-	 * @return Spanky\Instagram\Authenticator
+	 * @return Spanky\Instagram\Authorizor
 	 */
 
-	public static function authenticator($config) 
+	public static function authorizor($config) 
 	{
-		return new Authenticator(self::api(), $config);
+		return new Authorizor(self::api(), $config);
 	}
 
 

@@ -2,7 +2,7 @@
 
 use Spanky\Instagram\Instagram;
 
-class Authenticator {
+class Authorizor {
 
 	/**
 	 * The Instagram object.
