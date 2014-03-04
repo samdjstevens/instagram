@@ -1,6 +1,8 @@
 <?php namespace Spanky\Instagram\Collections;
 
 use Spanky\Instagram\Entities\User;
+use Spanky\Instagram\Entities\AuthorizedUser;
+use Spanky\Instagram\Transformers\UserTransformer;
 
 class UserCollection extends CollectionAbstract {
 
@@ -12,17 +14,10 @@ class UserCollection extends CollectionAbstract {
 	 * @return mixed
 	 */
 
-	public function transformItem($data) 
+	public function transformItem($data, $api = null) 
 	{
-		return new User(array(
+		$transformer = new UserTransformer();
 
-			'id'				=> (int) $data->id,
-			'username'			=> $data->username,
-			'profile_picture'	=> $data->profile_picture,
-			'full_name'			=> $data->full_name,
-			'bio'				=> $data->bio,
-			'website'			=> $data->website,
-
-		));
+		return new User($transformer->transform($data), $api);
 	}
 }

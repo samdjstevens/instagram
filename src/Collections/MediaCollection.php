@@ -13,7 +13,7 @@ class MediaCollection extends CollectionAbstract {
 	 * @return mixed
 	 */
 
-	public function transformItem($data) 
+	public function transformItem($data, $api = null ) 
 	{
 		$mediaData = array(
 

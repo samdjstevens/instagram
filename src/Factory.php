@@ -3,7 +3,8 @@
 use Guzzle\Http\Client;
 use Spanky\Instagram\Client\GuzzleClient;
 use Spanky\Instagram\Authenticator;
-use Spanky\Instagram\Api;
+use Spanky\Instagram\Instagram;
+use Spanky\Instagram\Http;
 
 class Factory {
 
@@ -27,6 +28,7 @@ class Factory {
 
 	public static function api() 
 	{
-		return new Api(new GuzzleClient(new Client));
+		$http = new Http(new GuzzleClient(new Client));
+		return new Instagram($http);
 	}
 }

@@ -35,11 +35,11 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 	 * @param array $items
 	 */
 
-	public function __construct(array $items, $pagination) 
+	public function __construct(array $items, $pagination, $api = null) 
 	{
-		$this->items = array_map(function($item) 
+		$this->items = array_map(function($item) use ($api) 
 		{
-			return $this->transformItem($item);
+			return $this->transformItem($item, $api);
 
 		}, $items);
 
@@ -62,7 +62,7 @@ abstract class CollectionAbstract implements ArrayAccess, Countable, IteratorAgg
 	 * @return mixed
 	 */
 
-	abstract function transformItem($data);
+	abstract function transformItem($data, $api = null);
 
 
 	/**

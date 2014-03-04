@@ -1,13 +1,13 @@
 <?php namespace Spanky\Instagram;
 
-use Spanky\Instagram\Api;
+use Spanky\Instagram\Instagram;
 
 class Authenticator {
 
 	/**
-	 * The Api object.
+	 * The Instagram object.
 	 * 
-	 * @var Spanky\Instagram\Api
+	 * @var Spanky\Instagram\Instagram
 	 */
 
 	private $api;
@@ -39,7 +39,7 @@ class Authenticator {
 	 * @param array	$config
 	 */
 
-	public function __construct(Api $api, $config = array()) 
+	public function __construct(Instagram $api, $config = array()) 
 	{
 		$this->api = $api;
 		$this->config = $config;
