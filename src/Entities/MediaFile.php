@@ -43,7 +43,7 @@ class MediaFile {
 	 * 
 	 * @param string $url
 	 * @param int $width
-	 * @param int $height]
+	 * @param int $height
 	 */
 
 	public function __construct($url, $width, $height) 
@@ -87,5 +87,17 @@ class MediaFile {
 	public function height() 
 	{
 		return $this->height;
+	}
+
+
+	/**
+	 * Return the URL, when casted to a string.
+	 * 
+	 * @return string
+	 */
+
+	public function __toString() 
+	{
+		return $this->url();
 	}
 }

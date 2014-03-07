@@ -67,6 +67,10 @@ class Instagram {
 		return $token;
 	}
 
+	/**
+	 * User methods
+	 */
+
 
 	/**
 	 * Retrieve the user that authorized
@@ -103,6 +107,11 @@ class Instagram {
 
 
 	/**
+	 * Relationship methods
+	 */
+
+
+	/**
 	 * Get the collection of users following a user
 	 * by user id.
 	 * 
@@ -135,22 +144,55 @@ class Instagram {
 	}
 
 
+	/**
+	 * Get the collection of users that have requested to
+	 * follow the authorized user.
+	 * 
+	 * @return Spanky\Instagram\Collections\UserCollection
+	 */
+
+	public function getRequestedBy() 
+	{
+		$response = $this->http->request('get', 'users/self/requested-by');
+
+		return new UserCollection($response->data(), $response->pagination(), $this);
+	}
 
 
+	/**
+	 * Get the relationship data between the authorized
+	 * user and another.
+	 * 
+	 * @param  int $user_id
+	 * @return stdClass
+	 */
+
+	public function getRelationship($user_id) 
+	{
+		return $this->http->request('get', 'users/'.$user_id.'/relationship')->data();
+	}
 
 
+	/**
+	 * Follow/unfollow/block/unblock/accept/deny a user from
+	 * the authorized user's account.
+	 * 
+	 * @param int $user_id
+	 * @param string $action
+	 */
+
+	public function setRelationship($user_id, $action) 
+	{
+		$params = array('action' => $action);
+		$response = $this->http->request('post', 'users/'.$user_id.'/relationship', $params);
+
+		return $response->data();
+	}
 
 
-
-
-
-
-
-
-
-
-
-	
+	/**
+	 * Media methods
+	 */
 
 
 	/**
@@ -162,41 +204,35 @@ class Instagram {
 	 * @return Spanky\Instagram\Collections\MediaCollection
 	 */
 
-	// public function getRecentMedia($user_id, $params = array()) 
-	// {
-	// 	$response = $this->hit('get', 'users/' . $user_id . '/media/recent', $params);
+	public function getRecentMedia($user_id, $params = array()) 
+	{
+		$response = $this->hit('get', 'users/' . $user_id . '/media/recent', $params);
 
-	// 	return new MediaCollection(
+		return new MediaCollection(
 
-	// 		$response->data(), 
-	// 		$response->pagination()
+			$response->data(), 
+			$response->pagination()
 
-	// 	);
-	// }
-
-
+		);
+	}
 
 
+	/**
+	 * Get the media liked by the authorized user.
+	 * 
+	 * @param  array  $options
+	 * @return Spanky\Instagram\Collections\MediaCollection
+	 */
 
+	public function getLikedMedia($options = array()) 
+	{
+		$response = $this->hit('get', 'users/self/media/liked', $options);
 
+		return new MediaCollection(
 
+			$response->data(), 
+			$response->pagination(), $this
 
-
-	// public function getLikedMedia($options = array()) 
-	// {
-	// 	$response = $this->hit('get', 'users/self/media/liked', $options);
-
-	// 	return new MediaCollection(
-
-	// 		$response->data(), 
-	// 		$response->pagination(), $this
-
-	// 	);
-	// }
-
-
-
-
-
-
+		);
+	}
 }

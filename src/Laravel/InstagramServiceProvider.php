@@ -7,11 +7,6 @@ use Illuminate\Foundation\AliasLoader;
 
 class InstagramServiceProvider extends ServiceProvider {
 
-	// this is currently broken as the config is never passed
-	// to the authenticator method.
-	// consider making these two different di things
-	// or putting the config back in the constructor of the factory class.
-
 	/**
 	 * Register the package.
 	 * 
@@ -35,16 +30,13 @@ class InstagramServiceProvider extends ServiceProvider {
 	public function boot() 
 	{
 		$this->package('spanky/instagram', null, realpath(dirname(__FILE__).'/../'));
-		// Register the package
 
 		$this->app->bind('instagram', function() 
 		{
-			$config = Config::get('instagram::config');
-			return new Factory();
+			$factory = new Factory();
+			$factory->setConfig(Config::get('instagram::config'));
+			return $factory;
 		});
-		// Bind the instagram key in the container, with
-		// the Spanky\Instagram\Factory class, passing 
-		// in the config
 
 		AliasLoader::getInstance()->alias(
 

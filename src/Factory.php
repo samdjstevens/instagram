@@ -2,11 +2,32 @@
 
 use Guzzle\Http\Client;
 use Spanky\Instagram\Client\GuzzleClient;
-use Spanky\Instagram\Authorizor;
-use Spanky\Instagram\Instagram;
 use Spanky\Instagram\Http;
+use Spanky\Instagram\Instagram;
+use Spanky\Instagram\Authorizor;
 
 class Factory {
+
+	/**
+	 * Holds the config details, if set.
+	 * 
+	 * @var array
+	 */
+
+	private $config;
+
+
+	/**
+	 * Set the config details.
+	 * 
+	 * @param array $config
+	 */
+
+	public function setConfig($config) 
+	{
+		$this->config = $config;
+	}
+
 
 	/**
 	 * Create an instance of the Authorizor class.
@@ -14,16 +35,16 @@ class Factory {
 	 * @return Spanky\Instagram\Authorizor
 	 */
 
-	public static function authorizor($config) 
+	public static function authorizor($config = null) 
 	{
-		return new Authorizor(self::api(), $config);
+		return new Authorizor(self::api(), $config ?: $this->config);
 	}
 
 
 	/**
 	 * Create an instance of the Api class.
 	 * 
-	 * @return Spanky\Instagram\Api
+	 * @return Spanky\Instagram\Instagram
 	 */
 
 	public static function api() 

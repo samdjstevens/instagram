@@ -32,11 +32,11 @@ class Authorizor {
 
 
 	/**
-	 * Inject the Api into the class, along with
+	 * Inject Instagram into the class, along with
 	 * the configuration details.
 	 * 
-	 * @param Api	$api
-	 * @param array	$config
+	 * @param Instagram	$api
+	 * @param array		$config
 	 */
 
 	public function __construct(Instagram $api, $config = array()) 
