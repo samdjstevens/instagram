@@ -119,8 +119,8 @@ $user = $instagram->getAuthorizedUser();
 // will return an instance of Spanky\Instagram\Entities\AuthorizedUser
 
 echo $user->username; // the username of the authorized user
-echo $user->profile_picture;
-echo $user->mediaCount(); // the number of photos/videos the user has uploaded
+echo $user->profile_picture; // their profile picture
+echo $user->mediaCount(); // the number of photos/videos they've uploaded
 ```
 
 ###Getting a user by their id
